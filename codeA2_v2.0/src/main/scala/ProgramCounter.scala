@@ -8,8 +8,19 @@ class ProgramCounter extends Module {
     val run = Input(Bool())
     val programCounterJump = Input(UInt(16.W))
     val programCounter = Output(UInt(16.W))
-  })
+  }) 
+  val programCounter = RegInit(0.U(16.W))
+  val programCounterNext = Wire(UInt(16.W))
 
-  //Implement this module here (respect the provided interface, since it used by the tester)
+  programCounterNext := programCounter
+  when (io.run && !io.stop && !io.jump ){
+    programCounterNext := programCounter + 1.U;
+  } .elsewhen (io.jump){
+    programCounterNext := io.programCounterJump
+  }.otherwise{
+    programCounterNext := programCounter
+  }
+  programCounter := programCounterNext
+  io.programCounter := programCounter
 
 }

@@ -1,0 +1,30 @@
+# --- sbt / Scala build output ---
+target/
+project/target/
+project/project/
+.bsp/
+
+# --- Metals / Scala CLI / Bloop (VS Code Scala-udvidelsen) ---
+.metals/
+.bloop/
+.scala-build/
+.ammonite/
+metals.sbt
+
+# --- Kompilerede filer (fx $Wrap...class / .tasty / .cache) ---
+*.class
+*.tasty
+*.cache
+
+# --- Chisel / chiseltest output ---
+test_run_dir/
+*.fir
+*.anno.json
+
+# --- Simulation (waveforms) ---
+*.vcd
+*.fst
+
+# --- IDE / OS ---
+.idea/
+.DS_Store
