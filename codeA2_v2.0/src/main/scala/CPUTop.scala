@@ -28,8 +28,19 @@ class CPUTop extends Module {
   val alu = Module(new ALU())
 
   //Connecting the modules
-  //programCounter.io.run := io.run
-  //programMemory.io.address := programCounter.io.programCounter
+  programCounter.io.run := io.run
+  programMemory.io.address := programCounter.io.programCounter
+  val instruction = programMemory.io.instructionRead
+  ControlUnit.io.controlIn := instruction(31,28)
+
+  RegisterFile.io.R1 := instruction(27,23)
+  RegisterFile.io.R2 := instruction(22,18)
+  RegisterFile.io.R3 := instruction(17,13)
+  RegisterFile.io.RegWrite := ControlUnit.io.RegWrite
+
+  
+
+
 
   ////////////////////////////////////////////
   //Continue here with your connections
