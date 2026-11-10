@@ -31,12 +31,39 @@ class CPUTop extends Module {
   programCounter.io.run := io.run
   programMemory.io.address := programCounter.io.programCounter
   val instruction = programMemory.io.instructionRead
-  ControlUnit.io.controlIn := instruction(31,28)
+  controlUnit.io.controlIn := instruction(31,28)
 
-  RegisterFile.io.R1 := instruction(27,23)
-  RegisterFile.io.R2 := instruction(22,18)
-  RegisterFile.io.R3 := instruction(17,13)
-  RegisterFile.io.RegWrite := ControlUnit.io.RegWrite
+  registerFile.io.R1 := instruction(27,23)
+  registerFile.io.R2 := instruction(22,18)
+  registerFile.io.R3 := instruction(17,13)
+  registerFile.io.RegWrite := controlUnit.io.RegWrite
+
+  val imm = Cat(Fill(14, instruction(17)), instruction(17, 0))
+
+  val aluB = Mux(controlUnit.io.ALUsrc, imm, registerFile.io.outputB)
+
+  alu.io.a :=  registerFile.io.outputA
+  alu.io.b := registerFile.io.outputB
+  alu.io.sel := controlUnit.io.ALUop
+
+  dataMemory.io.address := alu.io.result(15, 0)
+  dataMemory.io.dataWrite := registerFile.io.outputB
+  dataMemory.io.writeEnable := controlUnit.io.memWrite
+
+  registerFile.io.Data := Mux(controlUnit.io.memRead, dataMemory.io.dataRead, alu.io.result)
+
+  programCounter.io.jump := controlUnit.io.Jump && alu.io.cond
+  programCounter.io.programCounterJump := instruction(15, 0)
+  programCounter.io.stop := controlUnit.io.End
+
+  io.done := controlUnit.io.End
+
+  registerFile.io.R2 := Mux(controlUnit.io.Jump, instruction(27, 23), instruction(22, 18))
+
+  registerFile.io.R3 := Mux(controlUnit.io.Jump, instruction(22, 18),
+                        Mux(controlUnit.io.memWrite, instruction(27, 23), instruction(17, 13)))
+
+
 
   
 

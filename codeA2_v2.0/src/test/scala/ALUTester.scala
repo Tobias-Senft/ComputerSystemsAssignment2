@@ -55,13 +55,13 @@ class ALUTester extends AnyFlatSpec with ChiselScalatestTester {
         dut.io.a.poke(42)
         dut.io.b.poke(42)
         dut.clock.step(1)
-        System.out.println("42 == 42: " + dut.io.eq.peekBoolean())
-        dut.io.eq.expect(true.B)
+        System.out.println("42 == 42: " + dut.io.cond.peekBoolean())
+        dut.io.cond.expect(true.B)
 
         dut.io.b.poke(41)
         dut.clock.step(1)
-        System.out.println("42 == 41: " + dut.io.eq.peekBoolean())
-        dut.io.eq.expect(false.B)
+        System.out.println("42 == 41: " + dut.io.cond.peekBoolean())
+        dut.io.cond.expect(false.B)
 
         //LT
         System.out.println("\nTest LT")
@@ -69,14 +69,14 @@ class ALUTester extends AnyFlatSpec with ChiselScalatestTester {
         dut.io.a.poke(minusOne)
         dut.io.b.poke(1)
         dut.clock.step(1)
-        System.out.println("-1 < 1: " + dut.io.lt.peekBoolean())
-        dut.io.lt.expect(true.B)
+        System.out.println("-1 < 1: " + dut.io.cond.peekBoolean())
+        dut.io.cond.expect(true.B)
 
         dut.io.a.poke(5)
         dut.io.b.poke(3)
         dut.clock.step(1)
-        System.out.println("5 < 3: " + dut.io.lt.peekBoolean())
-        dut.io.lt.expect(false.B)
+        System.out.println("5 < 3: " + dut.io.cond.peekBoolean())
+        dut.io.cond.expect(false.B)
 
         System.out.println("\nEnd of simulation")
     }

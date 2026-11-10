@@ -55,7 +55,7 @@ class ControlUnit extends Module {
     }
     is("b0110".U) { //JR
       io.Jump := true.B
-      io.ALUop := 6.U
+      io.ALUop := 5.U
     }
     is("b0111".U) { //JEQ
       io.Jump := true.B

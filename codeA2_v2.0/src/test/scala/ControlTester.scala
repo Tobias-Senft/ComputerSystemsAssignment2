@@ -79,7 +79,7 @@ class ControlTester extends AnyFlatSpec with ChiselScalatestTester{
             dut.clock.step(1)
             dut.io.RegWrite.expect(false.B)
             dut.io.ALUsrc.expect(false.B)
-            dut.io.ALUop.expect(6.U)
+            dut.io.ALUop.expect(5.U)
             dut.io.memRead.expect(false.B)
             dut.io.memWrite.expect(false.B)
             dut.io.Jump.expect(true.B)
