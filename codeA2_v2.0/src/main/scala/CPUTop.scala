@@ -34,8 +34,6 @@ class CPUTop extends Module {
   controlUnit.io.controlIn := instruction(31,28)
 
   registerFile.io.R1 := instruction(27,23)
-  registerFile.io.R2 := instruction(22,18)
-  registerFile.io.R3 := instruction(17,13)
   registerFile.io.RegWrite := controlUnit.io.RegWrite
 
   val imm = Cat(Fill(14, instruction(17)), instruction(17, 0))
@@ -43,7 +41,7 @@ class CPUTop extends Module {
   val aluB = Mux(controlUnit.io.ALUsrc, imm, registerFile.io.outputB)
 
   alu.io.a :=  registerFile.io.outputA
-  alu.io.b := registerFile.io.outputB
+  alu.io.b := aluB
   alu.io.sel := controlUnit.io.ALUop
 
   dataMemory.io.address := alu.io.result(15, 0)
