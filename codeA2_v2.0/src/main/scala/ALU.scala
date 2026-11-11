@@ -24,6 +24,7 @@ class ALU extends Module {
     is(3.U) {io.cond := io.a === io.b}
     is(4.U) {io.cond := io.a.asSInt < io.b.asSInt}
     is(5.U) {io.cond := true.B}
+    is(6.U) {io.result :=  io.a}
   }
   
 

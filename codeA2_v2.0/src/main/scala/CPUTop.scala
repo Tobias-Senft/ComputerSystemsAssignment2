@@ -34,10 +34,11 @@ class CPUTop extends Module {
   controlUnit.io.controlIn := instruction(31,28)
 
   registerFile.io.R1 := instruction(27,23)
+  registerFile.io.R2 := instruction(22,18)
+  registerFile.io.R3 := instruction(17,13)
   registerFile.io.RegWrite := controlUnit.io.RegWrite
 
   val imm = Cat(Fill(14, instruction(17)), instruction(17, 0))
-
   val aluB = Mux(controlUnit.io.ALUsrc, imm, registerFile.io.outputB)
 
   alu.io.a :=  registerFile.io.outputA
@@ -50,16 +51,12 @@ class CPUTop extends Module {
 
   registerFile.io.Data := Mux(controlUnit.io.memRead, dataMemory.io.dataRead, alu.io.result)
 
+  val jumpOffset = Cat(Fill(3, instruction(12)), instruction(12, 0))                         //NY
   programCounter.io.jump := controlUnit.io.Jump && alu.io.cond
-  programCounter.io.programCounterJump := instruction(15, 0)
+  programCounter.io.programCounterJump := programCounter.io.programCounter + jumpOffset      //NY
   programCounter.io.stop := controlUnit.io.End
 
   io.done := controlUnit.io.End
-
-  registerFile.io.R2 := Mux(controlUnit.io.Jump, instruction(27, 23), instruction(22, 18))
-
-  registerFile.io.R3 := Mux(controlUnit.io.Jump, instruction(22, 18),
-                        Mux(controlUnit.io.memWrite, instruction(27, 23), instruction(17, 13)))
 
 
 

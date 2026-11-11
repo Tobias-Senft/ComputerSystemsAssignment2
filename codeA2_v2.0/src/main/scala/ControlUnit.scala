@@ -50,7 +50,7 @@ class ControlUnit extends Module {
     }
     is("b0101".U) { //SD: adresse = R2 + immediate via ALU
       io.ALUsrc := true.B
-      io.ALUop := 0.U
+      io.ALUop := 6.U
       io.memWrite := true.B
     }
     is("b0110".U) { //JR
