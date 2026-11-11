@@ -51,9 +51,9 @@ class CPUTop extends Module {
 
   registerFile.io.Data := Mux(controlUnit.io.memRead, dataMemory.io.dataRead, alu.io.result)
 
-  val jumpOffset = Cat(Fill(3, instruction(12)), instruction(12, 0))                         //NY
+  val jumpOffset = Cat(Fill(3, instruction(12)), instruction(12, 0))
   programCounter.io.jump := controlUnit.io.Jump && alu.io.cond
-  programCounter.io.programCounterJump := programCounter.io.programCounter + jumpOffset      //NY
+  programCounter.io.programCounterJump := programCounter.io.programCounter + jumpOffset
   programCounter.io.stop := controlUnit.io.End
 
   io.done := controlUnit.io.End
