@@ -20,8 +20,8 @@ class CPUTopTester extends AnyFlatSpec with ChiselScalatestTester {
         //Uncomment one of the following line depending on the image you want to load to the data memory
         //var image = Images.blackImage
         //var image = Images.whiteImage
-        //var image = Images.cellsImage
-        var image = Images.borderCellsImage
+        var image = Images.cellsImage
+        //var image = Images.borderCellsImage
         for (address <- 0 to image.length - 1) {
           dut.io.testerDataMemEnable.poke(true.B)
           dut.io.testerDataMemWriteEnable.poke(true.B)
